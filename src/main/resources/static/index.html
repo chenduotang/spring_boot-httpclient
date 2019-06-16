@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--导入jquery数据包-->
+    <script src="webjars/jquery/3.4.1/jquery.min.js"></script>
+    <style type="text/css">
+        #div1{
+            margin: 30px auto;
+            width: 300px;
+            height: 20px;
+            border: 0px solid red;
+        }
+    </style>
+</head>
+<body>
+<div id="div1">
+        省份:
+        <select id="province">
+            <option value=" ">--请选择城市--</option>
+            <option value="重庆">重庆</option>
+            <option value="北京">北京</option>
+        </select>
+        市区：
+        <select id="district">--省份--</select>
+    </div>
+<script>
+    $("#province").change(function () {
+        var province=$("#province").val();//获取选中的值
+        $("#district").children().remove();//清空前一次访问数据
+        $.getJSON("doGetControllerOne?keywords="+province,province,function(data){
+            var result=data.districts[1].districts;
+            $(result).each(function (i,item) {
+                var code=item.citycode;
+                var name=item.name;
+                $("#district").append("<option value="+code+">"+name+"</option>")
+            });
+        });
+    })
+</script>
+</body>
+</html>
